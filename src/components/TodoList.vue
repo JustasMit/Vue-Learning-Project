@@ -21,8 +21,19 @@
                 &times;
             </div>
         </div>
+        <div class="extra-container">
+            <div>
+                <label>
+                    <input type="checkbox">
+                    Check all
+                </label>
+            </div>
+            <div>
+                {{ remaining }} active items remaining
+            </div>
+        </div>
         <label>
-            To edit double click and press enter or lose focus. <br>
+            <br> To edit double click and press enter or lose focus. <br>
             To cancel edit press. <br>
             Click checkbox to set item as completed
         </label>
@@ -64,6 +75,11 @@ export default {
             inserted: function (el) {
                 el.focus()
             }
+        }
+    },
+    computed: {
+        remaining() {
+            return this.todos.filter(todo => !todo.completed).length
         }
     },
     methods: {
@@ -145,7 +161,7 @@ export default {
         margin-left: 12px;
         width: 100%;
         padding: 10px;
-        border: 1px solid gray;
+        border: 1px solid lightgray;
         margin-left: 12px;
         font-family: Avenir, Helvetica, Arial, sans-serif;
 
@@ -156,6 +172,34 @@ export default {
 
     .completed {
         text-decoration: line-through;
-        color: gray;
+        color: lightgray;
+    }
+
+    .extra-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 16px;
+        border-top: 1px solid lightgray;
+        padding-top: 14px;
+        margin-bottom: 14px;
+    }
+
+    button {
+        font-size: 14px;
+        background-color: white;
+        appearance: none; 
+        
+        &:hover {
+            background: lightgray;
+        }
+
+        &:focus {
+            outline: none;
+        }
+    }
+
+    .active {
+        background: lightgreen;
     }
 </style>
