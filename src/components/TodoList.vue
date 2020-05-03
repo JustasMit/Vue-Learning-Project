@@ -1,7 +1,7 @@
 <template>
     <div>
         <input type="text" class="todo-input" placeholder="Type here and press enter" v-model="newTodo" @keyup.enter="addTodo">
-        <div v-for="(todo, index) in todos" :key="todo.id" class="todo-item">
+        <div v-for="(todo, index) in todosFiltered" :key="todo.id" class="todo-item">
             <div class="todo-item-left">
                 <input type="checkbox" v-model="todo.completed">
 
@@ -30,14 +30,28 @@
                     Check all
                 </label>
             </div>
+
             <div>
-                {{ remaining }} active items remaining
+                {{ remaining }} active left
             </div>
         </div>
-        <label>
-            <br> To edit double click and press enter or lose focus. <br>
-            To cancel edit press. <br>
-            Click checkbox to set item as completed
+
+        <div class="extra-container">
+            <div>
+                <button :class="{ active: filter == 'all' }" @click="filter = 'all'">All</button>
+                <button :class="{ active: filter == 'active' }" @click="filter = 'active'">Active</button>
+                <button :class="{ active: filter == 'completed' }" @click="filter = 'completed'">Completed</button>
+            </div>
+
+            <div>
+                <button :disabled="!enableClearButton" @click="clearCompleted">Clear completed</button>
+            </div>
+        </div>
+
+        <label class="extra-container">
+            To edit double click on item. <br>
+            To cancel edit press ESC. <br>
+            Click checkbox to set item as completed. <br>
         </label>
     </div>
 </template>
@@ -50,6 +64,7 @@ export default {
             newTodo: '',
             idForTodo: 3,
             beforeEdit: '',
+            filter: 'all',
             todos: [
                 {
                     'id': 1,
@@ -82,6 +97,18 @@ export default {
     computed: {
         remaining() {
             return this.todos.filter(todo => !todo.completed).length
+        },
+        todosFiltered(){
+            switch(this.filter){
+                case 'active':
+                    return this.todos.filter(todo => !todo.completed);
+                case 'completed':
+                    return this.todos.filter(todo => todo.completed)
+            }
+            return this.todos;
+        },
+        enableClearButton() {
+            return this.todos.filter(todo => todo.completed).length > 0
         }
     },
     methods: {
@@ -117,6 +144,9 @@ export default {
         },
         checkAll() {
             this.todos.forEach((todo) => todo.completed = event.target.checked)
+        },
+        clearCompleted() {
+            this.todos = this.todos.filter(todo => !todo.completed)
         }
     }
 }
