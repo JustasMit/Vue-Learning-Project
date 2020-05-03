@@ -1,7 +1,8 @@
 <template>
     <div>
         <input type="text" class="todo-input" placeholder="Type here and press enter" v-model="newTodo" @keyup.enter="addTodo">
-        <div v-for="(todo, index) in todosFiltered" :key="todo.id" class="todo-item">
+        <transition-group name="fade" enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
+            <div v-for="(todo, index) in todosFiltered" :key="todo.id" class="todo-item">
             <div class="todo-item-left">
                 <input type="checkbox" v-model="todo.completed">
 
@@ -22,7 +23,8 @@
                 &times;
             </div>
         </div>
-
+        </transition-group>
+        
         <div class="extra-container">
             <div>
                 <label>
@@ -153,6 +155,8 @@ export default {
 </script>
 
 <style lang="scss">
+    @import url("https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css");
+
     .todo-input {
         width: 100%;
         padding: 10px 18px;
@@ -169,6 +173,7 @@ export default {
         display: flex;
         align-items: center;
         justify-content: space-between;
+        animation-duration: 0.3s;
     }
 
     .remove-item {
