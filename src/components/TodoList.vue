@@ -17,14 +17,16 @@
                 @keyup.enter="doneTodo(todo)" 
                 v-focus @keyup.esc="cancelEdit(todo)">
             </div>
+
             <div class="remove-item" @click="removeTodo(index)">
                 &times;
             </div>
         </div>
+
         <div class="extra-container">
             <div>
                 <label>
-                    <input type="checkbox">
+                    <input type="checkbox" :checked="remaining === 0" @change="checkAll">
                     Check all
                 </label>
             </div>
@@ -112,6 +114,9 @@ export default {
         cancelEdit(todo){
             todo.editing = false
             todo.title = this.beforeEdit
+        },
+        checkAll() {
+            this.todos.forEach((todo) => todo.completed = event.target.checked)
         }
     }
 }
