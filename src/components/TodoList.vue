@@ -3,19 +3,19 @@
         <input type="text" class="todo-input" placeholder="Type here and press enter" v-model="newTodo" @keyup.enter="addTodo">
         <transition-group name="fade" enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
             <todo-item v-for="(todo, index) in todosFiltered" 
-            :key="todo.id" 
-            :todo="todo" 
-            :index="index"
-            :checkAll="!remaining" 
-            @removedTodo="removeTodo" 
-            @finishedEdit="finishEdit">
+            :key=todo.id 
+            :todo=todo 
+            :index=index
+            :checkAll=!remaining
+            @removedTodo=removeTodo
+            @finishedEdit=finishEdit>
             </todo-item>
         </transition-group>
         
         <div class="extra-container">
             <div>
                 <label>
-                    <input type="checkbox" :checked="!remaining" @change="checkAll">
+                    <input type="checkbox" :checked=!remaining @change=checkAll>
                     Check all
                 </label>
             </div>
@@ -33,7 +33,7 @@
             </div>
 
             <div>
-                <button :disabled="!enableClearButton" @click="clearCompleted">Clear completed</button>
+                <button :disabled=!enableClearButton @click=clearCompleted>Clear completed</button>
             </div>
         </div>
 
@@ -81,13 +81,6 @@ export default {
             ]
         } 
     },
-    directives: {
-        focus: {
-            inserted: function (el) {
-                el.focus()
-            }
-        }
-    },
     computed: {
         remaining() {
             return this.todos.filter(todo => !todo.completed).length
@@ -121,20 +114,6 @@ export default {
         },
         removeTodo(index){
             this.todos.splice(index, 1)
-        },
-        editTodo(todo){
-            this.beforeEdit = todo.title
-            todo.editing = true
-        },
-        doneTodo(todo){
-            if(this.title.trim().length == 0){
-                todo.title = this.beforeEdit
-            }
-            todo.editing = false
-        },
-        cancelEdit(todo){
-            todo.title = this.beforeEdit
-            todo.editing = false
         },
         checkAll() {
             this.todos.forEach((todo) => todo.completed = event.target.checked)

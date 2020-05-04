@@ -57,6 +57,13 @@ export default {
             }
         }
     },
+    directives: {
+        focus: {
+            inserted: function (el) {
+                el.focus()
+            }
+        }
+    },
     methods: {
         removeTodo(index) {
             this.$emit('removedTodo', index)
