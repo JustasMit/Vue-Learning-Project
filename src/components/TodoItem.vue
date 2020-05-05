@@ -9,7 +9,7 @@
         class="todo-item-label"
         :class="{ completed: completed }"
       >
-        {{ todo.title }}
+        {{ title }}
       </div>
 
       <input
@@ -46,18 +46,15 @@ export default {
       required: true
     }
   },
-  data: () => ({
-    sortBy: "none"
-  }),
-  // data() {
-  //   return {
-  //     id: this.todo.id,
-  //     title: this.todo.title,
-  //     completed: this.todo.completed,
-  //     editing: this.todo.editing,
-  //     beforeEdit: this.todo.beforeEdit
-  //   };
-  //},
+  data() {
+    return {
+      id: this.todo.id,
+      title: this.todo.title,
+      completed: this.todo.completed,
+      editing: this.todo.editing,
+      beforeEdit: this.todo.beforeEdit
+    };
+  },
   watch: {
     checkAll() {
       if (this.checkAll) {
