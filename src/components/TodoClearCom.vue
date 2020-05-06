@@ -7,18 +7,16 @@
 </template>
 
 <script>
-import { EventBus } from "./event-bus";
 export default {
   name: "todo-clear-completed",
-  props: {
-    enableClearButton: {
-      type: Number,
-      required: true
+  computed: {
+    enableClearButton() {
+      return this.$store.getters.enableClearButton;
     }
   },
   methods: {
     clearCompleted() {
-      EventBus.$emit("clearCompleted");
+      this.$store.dispatch("clearCompleted");
     }
   }
 };

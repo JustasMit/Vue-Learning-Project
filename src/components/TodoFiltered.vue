@@ -19,18 +19,16 @@
 </template>
 
 <script>
-import { EventBus } from "./event-bus";
 export default {
   name: "todo-filtered",
-  data() {
-    return {
-      filter: "all"
-    };
+  computed: {
+    filter() {
+      return this.$store.getters.filter;
+    }
   },
   methods: {
     filterChange(filter) {
-      this.filter = filter;
-      EventBus.$emit("filterChanged", filter);
+      this.$store.dispatch("filterChange", filter);
     }
   }
 };

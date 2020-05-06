@@ -23,24 +23,18 @@
         @keyup.esc="cancelEdit"
       />
     </div>
-    <div class="remove-item" @click="removeTodo(index)">
+    <div class="remove-item" @click="removeTodo(todo.id)">
       &times;
     </div>
   </div>
 </template>
 
 <script>
-import { EventBus } from "./event-bus.js";
-
 export default {
   name: "todo-item",
   props: {
     todo: {
       type: Object,
-      required: true
-    },
-    index: {
-      type: Number,
       required: true
     },
     checkAll: {
@@ -74,8 +68,8 @@ export default {
     }
   },
   methods: {
-    removeTodo(index) {
-      EventBus.$emit("removedTodo", index);
+    removeTodo(id) {
+      this.$store.dispatch("removeTodo", id);
     },
     editTodo() {
       this.beforeEdit = this.title;
@@ -86,14 +80,12 @@ export default {
         this.title = this.beforeEdit;
       }
       this.editing = false;
-      EventBus.$emit("finishedEdit", {
-        index: this.index,
-        todo: {
-          id: this.id,
-          title: this.title,
-          completed: this.completed,
-          editing: this.editing
-        }
+      this.$store.dispatch("doneTodo", {
+        id: this.id,
+        title: this.title,
+        completed: this.completed,
+        editing: this.editing,
+        beforeEdit: this.beforeEdit
       });
     },
     cancelEdit() {
