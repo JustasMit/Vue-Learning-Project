@@ -15,6 +15,8 @@ export const store = new Vuex.Store({
     },
     todosFiltered(state) {
       switch (state.filter) {
+        case "all":
+          return state.todos;
         case "active":
           return state.todos.filter(todo => !todo.completed);
         case "completed":
@@ -108,9 +110,7 @@ export const store = new Vuex.Store({
     removeTodo(context, id) {
       axios
         .delete("todos/" + id)
-        .then(response => {
-          context.commit("removeTodo", response.data);
-        })
+        .then(context.commit("removeTodo", id))
         .catch(error => {
           console.log(error);
         });

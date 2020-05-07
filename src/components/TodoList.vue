@@ -57,8 +57,7 @@ export default {
   },
   data() {
     return {
-      newTodo: "",
-      beforeEdit: ""
+      newTodo: ""
     };
   },
   created() {
