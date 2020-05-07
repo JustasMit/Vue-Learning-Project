@@ -1,8 +1,11 @@
 import firebase from "firebase/app";
 import "firebase/firestore";
+import apikey from "./apikey";
+
+var firebaseKey = apikey.MY_KEY;
 
 var firebaseConfig = {
-  apiKey: "AIzaSyBDneCWs9H7TqXW998ispxxplzmbYZkMZY",
+  apiKey: firebaseKey,
   authDomain: "todo-1adb5.firebaseapp.com",
   databaseURL: "https://todo-1adb5.firebaseio.com",
   projectId: "todo-1adb5",
