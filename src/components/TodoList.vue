@@ -58,9 +58,11 @@ export default {
   data() {
     return {
       newTodo: "",
-      idForTodo: 4,
       beforeEdit: ""
     };
+  },
+  created() {
+    this.$store.dispatch("retrieveTodos");
   },
   computed: {
     remaining() {
@@ -80,11 +82,9 @@ export default {
         return;
       }
       this.$store.dispatch("addTodo", {
-        id: this.idForTodo,
         title: this.newTodo
       });
       this.newTodo = "";
-      this.idForTodo++;
     }
   }
 };
