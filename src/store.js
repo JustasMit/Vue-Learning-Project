@@ -1,11 +1,12 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import axios from "axios";
+import db from "./firebase";
 
 Vue.use(Vuex);
-axios.defaults.baseURL = "http://127.0.0.1:8000/api/";
+
 export const store = new Vuex.Store({
   state: {
+    loading: true,
     filter: "all",
     todos: []
   },
@@ -65,77 +66,91 @@ export const store = new Vuex.Store({
   },
   actions: {
     addTodo(context, todo) {
-      axios
-        .post("todos", {
+      db.collection("todos")
+        .add({
           title: todo.title,
-          completed: false
+          completed: false,
+          timestamp: new Date()
         })
-        .then(response => {
-          context.commit("addTodo", response.data);
-        })
-        .catch(error => {
-          console.log(error);
+        .then(doc => {
+          context.commit("addTodo", {
+            id: doc.id,
+            title: todo.title,
+            completed: false
+          });
         });
     },
     clearCompleted(context) {
-      const completed = store.state.todos
-        .filter(todo => todo.completed)
-        .map(todo => todo.id);
-      axios
-        .delete("todosDeleteCompleted", {
-          data: {
-            todos: completed
-          }
-        })
-        .then(response => {
-          context.commit("clearCompleted", response.data);
-        })
-        .catch(error => {
-          console.log(error);
+      db.collection("todos")
+        .where("completed", "==", true)
+        .get()
+        .then(querySnapshot => {
+          querySnapshot.forEach(doc => {
+            doc.ref.delete().then(() => {
+              context.commit("clearCompleted");
+            });
+          });
         });
     },
     filterChange(context, filter) {
       context.commit("filterChange", filter);
     },
     checkAll(context, checked) {
-      axios
-        .patch("todosCheckAll", {
-          completed: checked
-        })
-        .then(context.commit("checkAll", checked))
-        .catch(error => {
-          console.log(error);
+      db.collection("todos")
+        .get()
+        .then(querySnapshot => {
+          querySnapshot.forEach(doc => {
+            doc.ref
+              .update({
+                completed: checked
+              })
+              .then(() => {
+                context.commit("checkAll", checked);
+              });
+          });
         });
     },
     removeTodo(context, id) {
-      axios
-        .delete("todos/" + id)
-        .then(context.commit("removeTodo", id))
-        .catch(error => {
-          console.log(error);
+      db.collection("todos")
+        .doc(id)
+        .delete()
+        .then(() => {
+          context.commit("removeTodo", id);
         });
     },
     doneTodo(context, todo) {
-      axios
-        .patch("todos/" + todo.id, {
+      db.collection("todos")
+        .doc(todo.id)
+        .set({
+          id: todo.id,
           title: todo.title,
-          completed: todo.completed
+          completed: todo.completed,
+          timestamp: new Date()
         })
-        .then(response => {
-          context.commit("doneTodo", response.data);
-        })
-        .catch(error => {
-          console.log(error);
+        .then(() => {
+          context.commit("doneTodo", todo);
         });
     },
     retrieveTodos(context) {
-      axios
-        .get("todos")
-        .then(response => {
-          context.commit("retrieveTodos", response.data);
-        })
-        .catch(error => {
-          console.log(error);
+      context.state.loading = true;
+      db.collection("todos")
+        .get()
+        .then(querySnapshot => {
+          let tempTodos = [];
+          querySnapshot.forEach(doc => {
+            const data = {
+              id: doc.id,
+              title: doc.data().title,
+              completed: doc.data().completed,
+              timestamp: doc.data().timestamp
+            };
+            tempTodos.push(data);
+          });
+          context.state.loading = false;
+          const tempTodosSorted = tempTodos.sort((a, b) => {
+            return a.timestamp.seconds - b.timestamp.seconds;
+          });
+          context.commit("retrieveTodos", tempTodosSorted);
         });
     }
   }
