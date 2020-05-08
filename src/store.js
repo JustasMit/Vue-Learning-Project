@@ -3,7 +3,7 @@ import Vuex from "vuex";
 import axios from "axios";
 
 Vue.use(Vuex);
-axios.defaults.baseURL = "http://192.168.0.135:8000/api/";
+axios.defaults.baseURL = "http://127.0.0.1:8000/api/";
 export const store = new Vuex.Store({
   state: {
     filter: "all",
