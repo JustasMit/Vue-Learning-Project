@@ -1,6 +1,24 @@
 <template>
   <div id="app" class="container">
-    <img alt="Vue logo" src="./assets/logo.png" class="logo" />
+    <div
+      v-if="$store.state.loadingElse"
+      class="lds-spinner"
+      style="margin: 20px auto"
+    >
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <img v-else alt="Vue logo" src="./assets/logo.png" class="logo" />
     <todo-list></todo-list>
   </div>
 </template>
@@ -31,7 +49,7 @@ export default {
 .logo {
   display: block;
   margin: 20px auto;
-  height: 75px;
+  height: 80px;
 }
 
 #app {

@@ -3,13 +3,13 @@ import "firebase/firestore";
 
 var firebaseConfig = {
   apiKey: process.env.API_KEY,
-  authDomain: "todo-1adb5.firebaseapp.com",
-  databaseURL: "https://todo-1adb5.firebaseio.com",
-  projectId: "todo-1adb5",
-  storageBucket: "todo-1adb5.appspot.com",
-  messagingSenderId: "221647984947",
-  appId: "1:221647984947:web:86a8af8ac3d5b0b1638646",
-  measurementId: "G-RQ7MZZ4ZHP"
+  authDomain: "todo-43d6c.firebaseapp.com",
+  databaseURL: "https://todo-43d6c.firebaseio.com",
+  projectId: "todo-43d6c",
+  storageBucket: "todo-43d6c.appspot.com",
+  messagingSenderId: "805147175515",
+  appId: "1:805147175515:web:70d53194acc3d338876d7e",
+  measurementId: "G-CH3QJ9E1LY"
 };
 firebase.initializeApp(firebaseConfig);
 const firestore = firebase.firestore();

@@ -7,6 +7,7 @@ Vue.use(Vuex);
 export const store = new Vuex.Store({
   state: {
     loading: true,
+    loadingElse: false,
     filter: "all",
     todos: []
   },
@@ -66,6 +67,7 @@ export const store = new Vuex.Store({
   },
   actions: {
     addTodo(context, todo) {
+      context.state.loadingElse = true;
       db.collection("todos")
         .add({
           title: todo.title,
@@ -73,6 +75,7 @@ export const store = new Vuex.Store({
           timestamp: new Date()
         })
         .then(doc => {
+          context.state.loadingElse = false;
           context.commit("addTodo", {
             id: doc.id,
             title: todo.title,
@@ -81,12 +84,14 @@ export const store = new Vuex.Store({
         });
     },
     clearCompleted(context) {
+      context.state.loadingElse = true;
       db.collection("todos")
         .where("completed", "==", true)
         .get()
         .then(querySnapshot => {
           querySnapshot.forEach(doc => {
             doc.ref.delete().then(() => {
+              context.state.loadingElse = false;
               context.commit("clearCompleted");
             });
           });
@@ -96,6 +101,7 @@ export const store = new Vuex.Store({
       context.commit("filterChange", filter);
     },
     checkAll(context, checked) {
+      context.state.loadingElse = true;
       db.collection("todos")
         .get()
         .then(querySnapshot => {
@@ -105,20 +111,24 @@ export const store = new Vuex.Store({
                 completed: checked
               })
               .then(() => {
+                context.state.loadingElse = false;
                 context.commit("checkAll", checked);
               });
           });
         });
     },
     removeTodo(context, id) {
+      context.state.loadingElse = true;
       db.collection("todos")
         .doc(id)
         .delete()
         .then(() => {
+          context.state.loadingElse = false;
           context.commit("removeTodo", id);
         });
     },
     doneTodo(context, todo) {
+      context.state.loadingElse = true;
       db.collection("todos")
         .doc(todo.id)
         .set({
@@ -128,6 +138,7 @@ export const store = new Vuex.Store({
           timestamp: new Date()
         })
         .then(() => {
+          context.state.loadingElse = false;
           context.commit("doneTodo", todo);
         });
     },
