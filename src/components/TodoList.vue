@@ -164,6 +164,7 @@ button {
   font-size: 14px;
   background-color: white;
   appearance: none;
+  padding: 4px;
 
   &:hover {
     background: lightgray;
