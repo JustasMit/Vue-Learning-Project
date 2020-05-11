@@ -1,17 +1,33 @@
+/* eslint-disable prettier/prettier */
 <template>
   <div id="app">
     <ul class="nav">
-      <router-link to="/">Home</router-link>
-      <router-link to="/todo">App</router-link>
-      <router-link to="/login">Login</router-link>
-      <router-link to="/register">Register</router-link>
+      <router-link :to="{ name: 'home' }">Home</router-link>
+      <li v-if="loggedIn">
+        <router-link :to="{ name: 'todo' }">App</router-link>
+      </li>
+      <li v-if="!loggedIn">
+        <router-link :to="{ name: 'login' }">Login</router-link>
+      </li>
+      <li v-if="!loggedIn">
+        <router-link :to="{ name: 'register' }">Register</router-link>
+      </li>
+      <li v-if="loggedIn">
+        <router-link :to="{ name: 'logout' }">Logout</router-link>
+      </li>
     </ul>
     <router-view></router-view>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  computed: {
+    loggedIn() {
+      return this.$store.getters.loggedIn;
+    }
+  }
+};
 </script>
 
 <style>
