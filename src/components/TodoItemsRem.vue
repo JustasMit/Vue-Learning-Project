@@ -1,5 +1,5 @@
 <template>
-  <div>{{ remaining }} active left</div>
+  <div>{{ remaining }} active items left</div>
 </template>
 
 <script>

@@ -1,31 +1,43 @@
 <template>
-  <div>
-    <h2>Login</h2>
-    <form action="#" @submit.prevent="login">
-      <div>
-        <label>Email</label>
-        <input
+  <div class="container-sm">
+    <b-form @submit.prevent="login">
+      <b-form-group
+        id="input-group-1"
+        label="Email address:"
+        label-for="input-1"
+      >
+        <b-form-input
           type="email"
           name="username"
           id="username"
-          class="login-input"
+          required
+          placeholder="Enter your email"
           v-model="username"
-        />
-      </div>
-      <div>
-        <label>Password</label>
-        <input
+        ></b-form-input>
+      </b-form-group>
+
+      <b-form-group
+        id="input-group-2"
+        label="Password:"
+        label-for="input-2"
+        description="No special requirements"
+      >
+        <b-form-input
           type="password"
           name="password"
           id="password"
-          class="login-input"
+          required
+          placeholder="Enter your password"
           v-model="password"
-        />
-      </div>
-      <div>
-        <button type="submit" class="btn-submit">Login</button>
-      </div>
-    </form>
+        ></b-form-input>
+      </b-form-group>
+      <b-button class="col-lg-2" type="submit" variant="primary"
+        >Submit</b-button
+      >
+      <b-button class="col-lg-2 float-right" type="reset" variant="danger"
+        >Reset</b-button
+      >
+    </b-form>
   </div>
 </template>
 
@@ -49,6 +61,11 @@ export default {
         .then(response => {
           this.$router.push({ name: "todo" });
         });
+    },
+    onReset(evt) {
+      evt.preventDefault();
+      this.form.email = "";
+      this.form.password = "";
     }
   }
 };

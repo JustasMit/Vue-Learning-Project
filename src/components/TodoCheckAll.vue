@@ -1,9 +1,14 @@
 <template>
   <div>
-    <label>
-      <input type="checkbox" :checked="!getRemaining" @change="checkAll" />
+    <b-form-checkbox
+      :checked="!getRemaining"
+      @change="checkAll"
+      name="check-button"
+      button
+      button-variant="info"
+    >
       Check all
-    </label>
+    </b-form-checkbox>
   </div>
 </template>
 

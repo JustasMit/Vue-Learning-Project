@@ -1,12 +1,17 @@
 <template>
   <div class="todo-item">
     <div class="todo-item-left">
-      <input type="checkbox" v-model="completed" @change="doneTodo" />
+      <input
+        type="checkbox"
+        class="text-wrap"
+        v-model="completed"
+        @change="doneTodo"
+      />
 
       <div
         v-if="!editing"
         @dblclick="editTodo"
-        class="todo-item-label"
+        class="todo-item-label truncate"
         :class="{ completed: completed }"
       >
         {{ title }}
@@ -14,7 +19,7 @@
 
       <input
         v-else
-        class="todo-item-edit"
+        class="todo-item-edit truncate"
         type="text"
         v-model="title"
         @blur="doneTodo"
@@ -72,6 +77,7 @@ export default {
       this.$store.dispatch("removeTodo", id);
     },
     editTodo() {
+      if (this.completed == true) return;
       this.beforeEdit = this.title;
       this.editing = true;
     },
@@ -95,3 +101,54 @@ export default {
   }
 };
 </script>
+<style lang="scss">
+@import url("https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css");
+.todo-item {
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  animation-duration: 0.3s;
+}
+.remove-item {
+  cursor: pointer;
+  margin-left: auto;
+  &:hover {
+    color: black;
+  }
+}
+.todo-item-left {
+  width: 95%;
+  display: flex;
+  align-items: center;
+}
+.todo-item-label {
+  padding: 10px;
+  border: 1px solid white;
+  margin-left: 12px;
+}
+.todo-item-edit {
+  font-size: 20px;
+  color: #2c3e50;
+  margin-left: 12px;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid lightgray;
+  margin-left: 12px;
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  &:focus {
+    outline: 0;
+  }
+}
+.completed {
+  text-decoration: line-through;
+  color: lightgray;
+}
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 95%;
+  display: inline-block;
+}
+</style>

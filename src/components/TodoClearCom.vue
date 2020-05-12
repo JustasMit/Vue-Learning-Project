@@ -1,8 +1,15 @@
 <template>
   <div>
-    <button :disabled="!enableClearButton" @click="clearCompleted">
-      Clear completed
-    </button>
+    <b-row style="margin: auto">
+      <b-button
+        variant="danger"
+        class="col-md mg-clr"
+        :disabled="!enableClearButton"
+        @click="clearCompleted"
+      >
+        Clear completed
+      </b-button>
+    </b-row>
   </div>
 </template>
 

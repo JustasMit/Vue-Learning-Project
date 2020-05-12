@@ -1,41 +1,55 @@
 <template>
-  <div>
-    <h2>Register</h2>
-    <form action="#" @submit.prevent="register">
-      <div>
-        <label>Name</label>
-        <input
+  <div class="container-sm">
+    <b-form @submit.prevent="login">
+      <b-form-group id="input-group-1" label="Name:" label-for="input-1">
+        <b-form-input
           type="text"
           name="name"
           id="name"
-          class="login-input"
+          required
+          placeholder="Enter your name"
           v-model="name"
-        />
-      </div>
-      <div>
-        <label>Email</label>
-        <input
+        ></b-form-input>
+      </b-form-group>
+
+      <b-form-group
+        id="input-group-2"
+        label="Email address:"
+        label-for="input-2"
+        description="Email must be valid and will be used to login"
+      >
+        <b-form-input
           type="email"
           name="email"
           id="email"
-          class="login-input"
+          required
+          placeholder="Enter your email"
           v-model="email"
-        />
-      </div>
-      <div>
-        <label>Password</label>
-        <input
+        ></b-form-input>
+      </b-form-group>
+
+      <b-form-group
+        id="input-group-3"
+        label="Password:"
+        label-for="input-3"
+        description="Password must contain at least 6 characters"
+      >
+        <b-form-input
           type="password"
           name="password"
           id="password"
-          class="login-input"
+          required
+          placeholder="Enter your password"
           v-model="password"
-        />
-      </div>
-      <div>
-        <button type="submit" class="btn-submit">Create</button>
-      </div>
-    </form>
+        ></b-form-input>
+      </b-form-group>
+      <b-button class="col-lg-2" type="submit" variant="primary"
+        >Submit</b-button
+      >
+      <b-button class="col-lg-2 float-right" type="reset" variant="danger"
+        >Reset</b-button
+      >
+    </b-form>
   </div>
 </template>
 <script>
@@ -55,8 +69,8 @@ export default {
           email: this.email,
           password: this.password
         })
-        // eslint-disable-next-line no-unused-vars
         .then(response => {
+          console.log(response);
           this.$router.push({ name: "login" });
         });
     }

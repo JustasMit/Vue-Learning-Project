@@ -1,21 +1,20 @@
-/* eslint-disable prettier/prettier */
 <template>
   <div id="app">
-    <ul class="nav">
-      <router-link :to="{ name: 'home' }">Home</router-link>
-      <li v-if="loggedIn">
-        <router-link :to="{ name: 'todo' }">App</router-link>
-      </li>
-      <li v-if="!loggedIn">
-        <router-link :to="{ name: 'login' }">Login</router-link>
-      </li>
-      <li v-if="!loggedIn">
-        <router-link :to="{ name: 'register' }">Register</router-link>
-      </li>
-      <li v-if="loggedIn">
-        <router-link :to="{ name: 'logout' }">Logout</router-link>
-      </li>
-    </ul>
+    <b-navbar type="dark" variant="dark">
+      <b-navbar-nav class="ml-auto">
+        <b-nav-item :to="{ name: 'home' }">Home</b-nav-item>
+
+        <b-nav-item v-if="loggedIn" :to="{ name: 'todo' }">App</b-nav-item>
+
+        <b-nav-item v-if="!loggedIn" :to="{ name: 'login' }">Login</b-nav-item>
+
+        <b-nav-item v-if="!loggedIn" :to="{ name: 'register' }"
+          >Register</b-nav-item
+        >
+
+        <b-nav-item v-if="loggedIn" :to="{ name: 'logout' }">Logout</b-nav-item>
+      </b-navbar-nav>
+    </b-navbar>
     <router-view></router-view>
   </div>
 </template>
@@ -31,40 +30,27 @@ export default {
 </script>
 
 <style>
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* text-align: center; */
   color: #2c3e50;
   font-size: 20px;
 }
-.flex-center {
-  display: flex;
-  justify-content: center;
+@media (max-width: 768px) {
+  .mg-clr {
+    margin-top: 10px;
+  }
 }
-.nav {
-  display: flex;
-  list-style: none;
-  padding: 15px 0;
-  margin: 0;
-  justify-content: flex-end;
-  background-color: lightblue;
-  border-bottom: 1px solid lightgray;
-  margin-bottom: 24px;
+@media (min-width: 768px) {
+  .mg-r {
+    margin-right: 10px;
+  }
 }
-.nav a {
-  color: lightyellow;
-  padding: 0 25px;
-  font-size: 14;
-  font-weight: 600;
-  letter-spacing: 0.1rem;
-  text-decoration: none;
-  text-transform: uppercase;
+.col-lg-2 {
+  margin-top: 20px;
+}
+.container-sm {
+  margin-top: 100px;
 }
 </style>
