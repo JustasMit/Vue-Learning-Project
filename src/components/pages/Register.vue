@@ -1,6 +1,6 @@
 <template>
   <div class="container-sm">
-    <b-form @submit.prevent="login">
+    <b-form @submit.prevent="register">
       <b-form-group id="input-group-1" label="Name:" label-for="input-1">
         <b-form-input
           type="text"
