@@ -1,5 +1,5 @@
 import Vue from "vue";
-import Master from "./components/pages/Master";
+import App from "./App";
 import { store } from "./store";
 import VueRouter from "vue-router";
 import routes from "./routes";
@@ -42,6 +42,6 @@ new Vue({
   el: "#app",
   store,
   router,
-  components: { Master },
-  template: "<Master/>"
+  components: { App },
+  template: "<App/>"
 });
