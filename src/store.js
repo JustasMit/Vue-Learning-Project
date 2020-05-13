@@ -3,7 +3,7 @@ import Vuex from "vuex";
 import axios from "axios";
 
 Vue.use(Vuex);
-axios.defaults.baseURL = "http://localhost:8000/api/";
+axios.defaults.baseURL = "https://jusmit.xyz/api/";
 export const store = new Vuex.Store({
   state: {
     filter: "all",
@@ -196,6 +196,21 @@ export const store = new Vuex.Store({
             email: data.email,
             password: data.password
           })
+          .then(response => {
+            resolve(response);
+          })
+          .catch(error => {
+            reject(error);
+          });
+      });
+    },
+    retrieveName(context) {
+      axios.defaults.headers.common = {
+        Authorization: "Bearer " + context.state.token
+      };
+      return new Promise((resolve, reject) => {
+        axios
+          .get("user")
           .then(response => {
             resolve(response);
           })

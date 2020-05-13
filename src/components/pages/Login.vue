@@ -38,6 +38,13 @@
         >Reset</b-button
       >
     </b-form>
+    <div class="text-center">
+      <b-spinner
+        v-if="loadingLogin"
+        style="margin-top: 20px"
+        label="Loading..."
+      ></b-spinner>
+    </div>
   </div>
 </template>
 
@@ -47,11 +54,13 @@ export default {
   data() {
     return {
       username: "",
-      password: ""
+      password: "",
+      loadingLogin: false
     };
   },
   methods: {
     login() {
+      this.loadingLogin = true;
       this.$store
         .dispatch("loginToken", {
           username: this.username,
@@ -59,7 +68,16 @@ export default {
         })
         // eslint-disable-next-line no-unused-vars
         .then(response => {
-          this.$router.push({ name: "todo" });
+          // eslint-disable-next-line no-unused-vars
+          this.$store.dispatch("setName").then(response => {
+            this.loadingLogin = false;
+            this.$router.push({ name: "todo" });
+          });
+        })
+        // eslint-disable-next-line no-unused-vars
+        .catch(error => {
+          this.loadingLogin = false;
+          this.password = "";
         });
     },
     onReset(evt) {

@@ -1,6 +1,11 @@
 <template>
   <div id="app">
     <b-navbar type="dark" variant="dark">
+      <b-navbar-nav>
+        <b-nav-item v-if="loggedIn" disabled
+          >Welcome, {{ userName }}</b-nav-item
+        >
+      </b-navbar-nav>
       <b-navbar-nav class="ml-auto">
         <b-nav-item :to="{ name: 'home' }">Home</b-nav-item>
 
@@ -21,6 +26,16 @@
 
 <script>
 export default {
+  data() {
+    return {
+      userName: ""
+    };
+  },
+  created() {
+    this.$store.dispatch("retrieveName").then(response => {
+      this.userName = response.data.name;
+    });
+  },
   computed: {
     loggedIn() {
       return this.$store.getters.loggedIn;
