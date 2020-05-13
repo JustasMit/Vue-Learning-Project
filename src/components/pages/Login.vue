@@ -68,11 +68,8 @@ export default {
         })
         // eslint-disable-next-line no-unused-vars
         .then(response => {
-          // eslint-disable-next-line no-unused-vars
-          this.$store.dispatch("setName").then(response => {
-            this.loadingLogin = false;
-            this.$router.push({ name: "todo" });
-          });
+          this.loadingLogin = false;
+          this.$router.push({ name: "todo" });
         })
         // eslint-disable-next-line no-unused-vars
         .catch(error => {
