@@ -1,8 +1,7 @@
-import App from "./App";
+import TodoList from "./components/pages/TodoList";
 import Landing from "./components/pages/Landing";
 import Login from "./components/pages/Login";
 import Register from "./components/pages/Register";
-import Logout from "./components/pages/Logout";
 
 const routes = [
   {
@@ -20,11 +19,10 @@ const routes = [
   {
     path: "/todo",
     name: "todo",
-    component: App,
+    component: TodoList,
     meta: { requiresAuth: true }
   },
-  { path: "/", name: "home", component: Landing },
-  { path: "/logout", name: "logout", component: Logout }
+  { path: "/", name: "home", component: Landing }
 ];
 
 export default routes;

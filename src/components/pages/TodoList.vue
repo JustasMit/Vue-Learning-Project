@@ -1,5 +1,5 @@
 <template>
-  <div style="margin-top: 50px">
+  <div class="container-sm">
     <b-form-input
       size="lg"
       type="text"
@@ -57,11 +57,11 @@
 </template>
 
 <script>
-import TodoItem from "./TodoItem";
-import TodoItemsRem from "./TodoItemsRem";
-import TodoCheckAll from "./TodoCheckAll";
-import TodoFiltered from "./TodoFiltered";
-import TodoClearCom from "./TodoClearCom";
+import TodoItem from "../TodoItem";
+import TodoItemsRem from "../TodoItemsRem";
+import TodoCheckAll from "../TodoCheckAll";
+import TodoFiltered from "../TodoFiltered";
+import TodoClearCom from "../TodoClearCom";
 
 export default {
   name: "todo-list",

@@ -59,23 +59,20 @@ export default {
     };
   },
   methods: {
-    login() {
+    async login() {
       this.loadingLogin = true;
-      this.$store
-        .dispatch("loginToken", {
+
+      try {
+        await this.$store.dispatch("login", {
           username: this.username,
           password: this.password
-        })
-        // eslint-disable-next-line no-unused-vars
-        .then(response => {
-          this.loadingLogin = false;
-          this.$router.push({ name: "todo" });
-        })
-        // eslint-disable-next-line no-unused-vars
-        .catch(error => {
-          this.loadingLogin = false;
-          this.password = "";
         });
+        this.$router.push({ name: "todo" });
+      } catch (e) {
+        this.password = "";
+      } finally {
+        this.loadingLogin = false;
+      }
     },
     onReset(evt) {
       evt.preventDefault();

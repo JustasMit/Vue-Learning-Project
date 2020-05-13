@@ -4,11 +4,17 @@ import axios from "axios";
 
 Vue.use(Vuex);
 axios.defaults.baseURL = "https://jusmit.xyz/api/";
+
+// Initial token setup using local storage
+const token = localStorage.getItem("access_token");
+if (token) axios.defaults.headers.common = { Authorization: "Bearer " + token };
+
 export const store = new Vuex.Store({
   state: {
     filter: "all",
     todos: [],
-    token: localStorage.getItem("access_token") || null
+    token: token || null,
+    userName: null
   },
   getters: {
     remaining(state) {
@@ -66,11 +72,18 @@ export const store = new Vuex.Store({
     retrieveTodos(state, todos) {
       state.todos = todos;
     },
-    loginToken(state, token) {
+    setToken(state, token) {
+      axios.defaults.headers.common = { Authorization: "Bearer " + token };
+      localStorage.setItem("access_token", token);
       state.token = token;
     },
-    destroyToken(state) {
+    removeToken(state) {
+      axios.defaults.headers.common = {};
+      localStorage.removeItem("access_token");
       state.token = null;
+    },
+    changeUserName(state, userName) {
+      state.userName = userName;
     }
   },
   actions: {
@@ -148,44 +161,35 @@ export const store = new Vuex.Store({
           console.log(error);
         });
     },
-    loginToken(context, login) {
-      return new Promise((resolve, reject) => {
-        axios
-          .post("login", {
-            username: login.username,
-            password: login.password
-          })
-          .then(response => {
-            const token = response.data.access_token;
-            localStorage.setItem("access_token", token);
-            context.commit("loginToken", token);
-            resolve(response);
-          })
-          .catch(error => {
-            console.log(error);
-            reject(error);
-          });
-      });
-    },
-    destroyToken(context) {
-      axios.defaults.headers.common = {
-        Authorization: "Bearer " + context.state.token
-      };
+    async fetchUser({ state, commit }) {
+      if (!state.token) return;
 
-      if (context.getters.loggedIn) {
-        return new Promise((resolve, reject) => {
-          axios
-            .post("logout")
-            .then(response => {
-              localStorage.removeItem("access_token");
-              context.commit("destroyToken");
-              resolve(response);
-            })
-            .catch(error => {
-              console.log(error);
-              reject(error);
-            });
+      try {
+        const response = await axios.get("user");
+        commit("changeUserName", response.data.name);
+      } catch (e) {
+        console.error(e);
+      }
+    },
+    async login({ commit }, { username, password }) {
+      try {
+        const response = await axios.post("login", {
+          username: username,
+          password: password
         });
+        commit("setToken", response.data.access_token);
+      } catch (e) {
+        console.error(e);
+      }
+    },
+    async logout({ getters, commit }) {
+      if (!getters.loggedIn) return;
+
+      try {
+        await axios.post("logout");
+        commit("removeToken");
+      } catch (e) {
+        console.error(e);
       }
     },
     register(context, data) {
@@ -196,21 +200,6 @@ export const store = new Vuex.Store({
             email: data.email,
             password: data.password
           })
-          .then(response => {
-            resolve(response);
-          })
-          .catch(error => {
-            reject(error);
-          });
-      });
-    },
-    retrieveName(context) {
-      axios.defaults.headers.common = {
-        Authorization: "Bearer " + context.state.token
-      };
-      return new Promise((resolve, reject) => {
-        axios
-          .get("user")
           .then(response => {
             resolve(response);
           })
