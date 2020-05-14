@@ -53,6 +53,8 @@
   </div>
 </template>
 <script>
+import axios from "axios";
+
 export default {
   data() {
     return {
@@ -62,17 +64,17 @@ export default {
     };
   },
   methods: {
-    register() {
-      this.$store
-        .dispatch("auth/register", {
+    async register() {
+      try {
+        await axios.post("register", {
           name: this.name,
           email: this.email,
           password: this.password
-        })
-        .then(response => {
-          console.log(response);
-          this.$router.push({ name: "login" });
         });
+        this.$router.push({ name: "login" });
+      } catch (e) {
+        console.error(e);
+      }
     }
   }
 };

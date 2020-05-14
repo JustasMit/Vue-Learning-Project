@@ -1,6 +1,6 @@
 import axios from "axios";
 
-axios.defaults.baseURL = "https://jusmit.xyz/api/";
+axios.defaults.baseURL = "http://jusmit.xyz/api/";
 
 // Initial token setup using local storage
 const token = localStorage.getItem("access_token");
@@ -60,22 +60,6 @@ export default {
       } catch (e) {
         console.error(e);
       }
-    },
-    register(context, data) {
-      return new Promise((resolve, reject) => {
-        axios
-          .post("register", {
-            name: data.name,
-            email: data.email,
-            password: data.password
-          })
-          .then(response => {
-            resolve(response);
-          })
-          .catch(error => {
-            reject(error);
-          });
-      });
     }
   }
 };
