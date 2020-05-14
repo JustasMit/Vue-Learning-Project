@@ -26,7 +26,7 @@ export default {
     }
   },
   mutations: {
-    updateAdd(state, todo) {
+    addTodo(state, todo) {
       state.todos.push({
         id: todo.id,
         title: todo.title,
@@ -34,20 +34,20 @@ export default {
         editing: false
       });
     },
-    updateClearCompleted(state) {
+    clearTodos(state) {
       state.todos = state.todos.filter(todo => !todo.completed);
     },
     updateFilter(state, filter) {
       state.filter = filter;
     },
-    updateCheckAll(state, checked) {
+    setCheckAll(state, checked) {
       state.todos.forEach(todo => (todo.completed = checked));
     },
-    updateRemove(state, id) {
+    removeTodo(state, id) {
       const index = state.todos.findIndex(item => item.id == id);
       state.todos.splice(index, 1);
     },
-    updateDone(state, todo) {
+    updateTodo(state, todo) {
       const index = state.todos.findIndex(item => item.id == todo.id);
       state.todos.splice(index, 1, {
         id: todo.id,
@@ -56,7 +56,7 @@ export default {
         editing: todo.editing
       });
     },
-    updateRetrieve(state, todos) {
+    setTodos(state, todos) {
       state.todos = todos;
     }
   },
@@ -68,14 +68,14 @@ export default {
           completed: false
         })
         .then(response => {
-          context.commit("updateAdd", response.data);
+          context.commit("addTodo", response.data);
         })
         .catch(e => {
           console.error(e);
         });
     },
-    clearCompleted(context, todo) {
-      const completed = todo.todos
+    clearCompleted(context) {
+      const completed = context.state.todos
         .filter(todo => todo.completed)
         .map(todo => todo.id);
       axios
@@ -85,7 +85,7 @@ export default {
           }
         })
         .then(response => {
-          context.commit("updateClearCompleted", response.data);
+          context.commit("clearTodos", response.data);
         })
         .catch(e => {
           console.error(e);
@@ -99,7 +99,7 @@ export default {
         .patch("todosCheckAll", {
           completed: checked
         })
-        .then(context.commit("updateCheckAll", checked))
+        .then(context.commit("setCheckAll", checked))
         .catch(e => {
           console.error(e);
         });
@@ -107,7 +107,7 @@ export default {
     remove(context, id) {
       axios
         .delete("todos/" + id)
-        .then(context.commit("updateRemove", id))
+        .then(context.commit("removeTodo", id))
         .catch(e => {
           console.error(e);
         });
@@ -119,7 +119,7 @@ export default {
           completed: todo.completed
         })
         .then(response => {
-          context.commit("updateDone", response.data);
+          context.commit("updateTodo", response.data);
         })
         .catch(e => {
           console.error(e);
@@ -129,7 +129,7 @@ export default {
       axios
         .get("todos")
         .then(response => {
-          context.commit("updateRetrieve", response.data);
+          context.commit("setTodos", response.data);
         })
         .catch(e => {
           console.error(e);
