@@ -1,5 +1,7 @@
 import axios from "axios";
 
+axios.defaults.baseURL = "https://jusmit.xyz/api/";
+
 export default {
   namespaced: true,
   state: {
