@@ -1,6 +1,6 @@
 import axios from "axios";
 
-axios.defaults.baseURL = "http://jusmit.xyz/api/";
+axios.defaults.baseURL = "https://jusmit.xyz/api/";
 
 // Initial token setup using local storage
 const token = localStorage.getItem("access_token");
