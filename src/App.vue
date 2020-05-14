@@ -28,19 +28,19 @@
 export default {
   name: "App",
   async created() {
-    await this.$store.dispatch("fetchUser");
+    await this.$store.dispatch("auth/fetchUser");
   },
   computed: {
     loggedIn() {
-      return this.$store.getters.loggedIn;
+      return this.$store.getters["auth/loggedIn"];
     },
     userName() {
-      return this.$store.state.userName;
+      return this.$store.state.auth.userName;
     }
   },
   methods: {
     logout() {
-      this.$store.dispatch("logout").then(() => {
+      this.$store.dispatch("auth/logout").then(() => {
         this.$router.push({ name: "home" });
       });
     }

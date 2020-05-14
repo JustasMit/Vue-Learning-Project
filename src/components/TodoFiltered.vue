@@ -27,7 +27,7 @@ export default {
   name: "todo-filtered",
   methods: {
     filterChange(filter) {
-      this.$store.dispatch("filterChange", filter);
+      this.$store.dispatch("todo/filter", filter);
     }
   }
 };

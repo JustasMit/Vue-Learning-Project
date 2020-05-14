@@ -17,12 +17,12 @@ export default {
   name: "todo-check-all",
   computed: {
     getRemaining() {
-      return this.$store.getters.remaining;
+      return this.$store.getters["todo/remaining"];
     }
   },
   methods: {
     checkAll() {
-      this.$store.dispatch("checkAll", event.target.checked);
+      this.$store.dispatch("todo/checkAll", event.target.checked);
     }
   }
 };

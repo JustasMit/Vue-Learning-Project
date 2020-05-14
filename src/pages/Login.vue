@@ -63,7 +63,7 @@ export default {
       this.loadingLogin = true;
 
       try {
-        await this.$store.dispatch("login", {
+        await this.$store.dispatch("auth/login", {
           username: this.username,
           password: this.password
         });

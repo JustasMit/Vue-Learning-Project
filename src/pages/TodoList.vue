@@ -57,11 +57,11 @@
 </template>
 
 <script>
-import TodoItem from "../TodoItem";
-import TodoItemsRem from "../TodoItemsRem";
-import TodoCheckAll from "../TodoCheckAll";
-import TodoFiltered from "../TodoFiltered";
-import TodoClearCom from "../TodoClearCom";
+import TodoItem from "../components/TodoItem";
+import TodoItemsRem from "../components/TodoItemsRem";
+import TodoCheckAll from "../components/TodoCheckAll";
+import TodoFiltered from "../components/TodoFiltered";
+import TodoClearCom from "../components/TodoClearCom";
 
 export default {
   name: "todo-list",
@@ -78,17 +78,17 @@ export default {
     };
   },
   created() {
-    this.$store.dispatch("retrieveTodos");
+    this.$store.dispatch("todo/retrieve");
   },
   computed: {
     remaining() {
-      return this.$store.getters.remaining;
+      return this.$store.getters["todo/remaining"];
     },
     todosFiltered() {
-      return this.$store.getters.todosFiltered;
+      return this.$store.getters["todo/todosFiltered"];
     },
     enableClearButton() {
-      return this.$store.getters.enableClearButton;
+      return this.$store.getters["todo/enableClearButton"];
     }
   },
   methods: {
@@ -97,7 +97,7 @@ export default {
         alert("Please write something");
         return;
       }
-      this.$store.dispatch("addTodo", {
+      this.$store.dispatch("todo/add", {
         title: this.newTodo
       });
       this.newTodo = "";

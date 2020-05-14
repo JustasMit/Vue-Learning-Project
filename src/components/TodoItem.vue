@@ -74,7 +74,7 @@ export default {
   },
   methods: {
     removeTodo(id) {
-      this.$store.dispatch("removeTodo", id);
+      this.$store.dispatch("todo/remove", id);
     },
     editTodo() {
       if (this.completed == true) return;
@@ -86,7 +86,7 @@ export default {
         this.title = this.beforeEdit;
       }
       this.editing = false;
-      this.$store.dispatch("doneTodo", {
+      this.$store.dispatch("todo/done", {
         id: this.id,
         title: this.title,
         completed: this.completed,

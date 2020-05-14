@@ -1,7 +1,7 @@
-import TodoList from "./components/pages/TodoList";
-import Landing from "./components/pages/Landing";
-import Login from "./components/pages/Login";
-import Register from "./components/pages/Register";
+import TodoList from "../pages/TodoList";
+import Landing from "../pages/Landing";
+import Login from "../pages/Login";
+import Register from "../pages/Register";
 
 const routes = [
   {

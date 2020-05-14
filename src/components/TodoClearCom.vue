@@ -18,12 +18,12 @@ export default {
   name: "todo-clear-completed",
   computed: {
     enableClearButton() {
-      return this.$store.getters.enableClearButton;
+      return this.$store.getters["todo/enableClearButton"];
     }
   },
   methods: {
     clearCompleted() {
-      this.$store.dispatch("clearCompleted");
+      this.$store.dispatch("todo/clearCompleted");
     }
   }
 };

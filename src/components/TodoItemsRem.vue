@@ -7,7 +7,7 @@ export default {
   name: "todo-remaining",
   computed: {
     remaining() {
-      return this.$store.getters.remaining;
+      return this.$store.getters["todo/remaining"];
     }
   }
 };
